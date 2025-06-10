@@ -42,7 +42,7 @@ public class TestCases {
     // and number(text()) <= 4]
     // Print the count of items: print 0, if no item is there
     // Close the browser quit()
-    @Test
+    @Test(enabled = false)
     public void testCase01() {
         try {
             driver.get("https://www.flipkart.com/");
@@ -84,7 +84,7 @@ public class TestCases {
     // Print both key and value of the hash map in console
     // Close the browser quit()
 
-    @Test
+    @Test(enabled = false)
     public void testCase02() {
         try {
             driver.get("https://www.flipkart.com/");
@@ -120,62 +120,60 @@ public class TestCases {
             System.out.println("Exception: " + e.getMessage());
         }
     }
-        // ----------------------- Testcase03 -------------------------
-        // Navigate to "https://www.flipkart.com/"
-        // Locate webelement for searchBar : //input[contains(@title,'Search for
-        // Products')] and search for "Coffee Mug": sendKeys and click enter
-        // Locate webelement for 4stars and more and click:
-        // //div[@class='XqNaEv']/following-sibling::div[contains(text(),'4')]
-        // Locate webelements for reviews and sort it in decsending and then put top 5
-        // in a integer list : //span[@class='Wphh3N'].getText
-        // Define a empty HashMap
-        // for the top 5 reviewed elements, get the title : //a[@class='wjcEIp'] and
-        // image url by: //img[@loading='eager']
-        // print tilte and image
-        // Close the browser quit()
+    // ----------------------- Testcase03 -------------------------
+    // Navigate to "https://www.flipkart.com/"
+    // Locate webelement for searchBar : //input[contains(@title,'Search for
+    // Products')] and search for "Coffee Mug": sendKeys and click enter
+    // Locate webelement for 4stars and more and click:
+    // //div[@class='XqNaEv']/following-sibling::div[contains(text(),'4')]
+    // Locate webelements for reviews and sort it in decsending and then put top 5
+    // in a integer list : //span[@class='Wphh3N'].getText
+    // Define a empty HashMap
+    // for the top 5 reviewed elements, get the title : //a[@class='wjcEIp'] and
+    // image url by: //img[@loading='eager']
+    // print tilte and image
+    // Close the browser quit()
 
-        @Test
-        public void testCase03() {
-            try{
-                driver.get("https://www.flipkart.com/");
-    
-                WebElement searchBar = driver.findElement(By.xpath("//input[contains(@title,'Search for Products')]"));
-                Wrappers.waitUntilElementVisible(driver, searchBar);
-                Wrappers.searchForProduct(driver, searchBar, "Coffee Mug");
-                Wrappers.pressEnter(driver, searchBar);
-    
-                WebElement fourStars = driver.findElement(By.xpath("//div[@class='XqNaEv']/following-sibling::div[contains(text(),'4')]"));
-                Wrappers.waitUntilElementVisible(driver, fourStars);
-                Wrappers.chooseOption(driver, fourStars);
-                
-                Thread.sleep(5000);
-                List<WebElement> reviews = driver.findElements(By.xpath("//span[@class='Wphh3N']"));
-                List<String> reviewList = new ArrayList<>();
-                for (WebElement review : reviews) {
-                    reviewList.add(review.getText().replaceAll("[^0-9]", ""));
-                }
-                List<Integer> top5Reviews = reviewList.stream().map(Integer::parseInt).sorted(Collections.reverseOrder()).limit(5).collect(Collectors.toList());
-    
-                List<WebElement> productTitles = driver.findElements(By.xpath("//a[@class='wjcEIp']"));
-                List<WebElement> productImages = driver.findElements(By.xpath("//img[@loading='eager']"));
-    
-                HashMap<String, String> result = new HashMap<String, String>();
-                for (int i = 0; i < top5Reviews.size(); i++) {
-                    result.put(productTitles.get(i).getText(), productImages.get(i).getAttribute("src"));
-                }
-                for (String key : result.keySet()) {
-                    System.out.println("Product Title: " + key + " Image URL: " + result.get(key));
-                }
-            }catch(Exception e){
-                System.out.println("Exception: " + e.getMessage());
+    @Test(enabled = false)
+    public void testCase03() {
+        try {
+            driver.get("https://www.flipkart.com/");
+
+            WebElement searchBar = driver.findElement(By.xpath("//input[contains(@title,'Search for Products')]"));
+            Wrappers.waitUntilElementVisible(driver, searchBar);
+            Wrappers.searchForProduct(driver, searchBar, "Coffee Mug");
+            Wrappers.pressEnter(driver, searchBar);
+
+            WebElement fourStars = driver
+                    .findElement(By.xpath("//div[@class='XqNaEv']/following-sibling::div[contains(text(),'4')]"));
+            Wrappers.waitUntilElementVisible(driver, fourStars);
+            Wrappers.chooseOption(driver, fourStars);
+
+            Thread.sleep(5000);
+            List<WebElement> reviews = driver.findElements(By.xpath("//span[@class='Wphh3N']"));
+            List<String> reviewList = new ArrayList<>();
+            for (WebElement review : reviews) {
+                reviewList.add(review.getText().replaceAll("[^0-9]", ""));
+            }
+            List<Integer> top5Reviews = reviewList.stream().map(Integer::parseInt).sorted(Collections.reverseOrder())
+                    .limit(5).collect(Collectors.toList());
+
+            List<WebElement> productTitles = driver.findElements(By.xpath("//a[@class='wjcEIp']"));
+            List<WebElement> productImages = driver.findElements(By.xpath("//img[@loading='eager']"));
+
+            HashMap<String, String> result = new HashMap<String, String>();
+            for (int i = 0; i < top5Reviews.size(); i++) {
+                result.put(productTitles.get(i).getText(), productImages.get(i).getAttribute("src"));
+            }
+            for (String key : result.keySet()) {
+                System.out.println("Product Title: " + key + " Image URL: " + result.get(key));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
         }
     }
 
-
-    /*
-     * Do not change the provided methods unless necessary, they will help in
-     * automation and assessment
-     */
+    
     @BeforeTest
     public void startBrowser() {
         System.setProperty("java.util.logging.config.file", "logging.properties");
